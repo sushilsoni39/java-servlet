@@ -3,6 +3,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -17,20 +18,17 @@ public class ContextListenerDemo implements ServletContextListener
                 + this.getClass().getName());
         ServletContext servletContext = servletContextEvent.getServletContext();
         System.out.println(servletContext + " is Initialized or Created");
+        String path = servletContext.getInitParameter("path");
 
-        try (InputStream input = new FileInputStream("C:\\Users\\sushilk\\newfilter\\src\\main\\config.properties"))  {
+        try {
+            InputStream in = new FileInputStream(path);
             Properties prop = new Properties();
-            if (input == null) {
-                System.out.println("Sorry, unable to find config.properties");
-                return;
-            }
-            prop.load(input);
-            System.out.println(prop.getProperty("db.url"));
-            System.out.println(prop.getProperty("db.user"));
-            System.out.println(prop.getProperty("db.password"));
-        }
-        catch (IOException ex) {
-            ex.printStackTrace();
+            prop.load(in);
+            servletContext.setAttribute("properties",prop);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         System.out.println("\n#####################################\n");
 

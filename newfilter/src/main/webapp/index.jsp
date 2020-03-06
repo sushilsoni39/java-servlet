@@ -27,7 +27,15 @@
    <label> Get details of ID:
                 <input type="text" name="searchroll"></label>
                 <input type="submit" value="search"/>
+                <br>
+                <br>
+                <br>
 </form>
+<form action="property" method"GET">
+<label> show properties:<input type="submit" value="Search"/>
+</form>
+
+
 
 </body>
 </html>
